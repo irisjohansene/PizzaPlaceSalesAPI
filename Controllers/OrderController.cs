@@ -2,9 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using PizzaPlaceSalesAPI.Dto;
 using PizzaPlaceSalesAPI.Services.CSVServices;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace PizzaPlaceSalesAPI.Controllers
 {
+    /// <summary>
+    /// Controller for handling orders.
+    /// </summary>
     [EnableCors("AllowedOrigins")]
     [Route("api/[controller]")]
     [ApiController]
@@ -12,11 +19,20 @@ namespace PizzaPlaceSalesAPI.Controllers
     {
         private readonly ICSVService _csvService;
 
+        /// <summary>
+        /// Constructor for OrderController.
+        /// </summary>
+        /// <param name="csvService">The CSV service instance.</param>
         public OrderController(ICSVService csvService)
         {
             _csvService = csvService;
         }
 
+        /// <summary>
+        /// Endpoint for reading order CSV files.
+        /// </summary>
+        /// <param name="file">The uploaded CSV file containing order data.</param>
+        /// <returns>Returns a list of orders from the uploaded CSV file.</returns>
         [HttpPost("read-order-csv")]
         public async Task<IActionResult> GetOrderCSV([FromForm] IFormFileCollection file)
         {
